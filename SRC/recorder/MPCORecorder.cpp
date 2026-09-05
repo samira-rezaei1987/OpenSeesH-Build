@@ -4102,7 +4102,7 @@ namespace mpco {
 					argv[0] = request.c_str();
 					OutputDescriptor eo_descriptor;
 					OutputDescriptorStream eo_stream(&eo_descriptor);
-					Response *eo_response = elem->setResponse(argv, argc, eo_stream);
+					Response *eo_response = elem->setResponse(argv, argc, &eo_stream);
 					eo_stream.finalizeSetResponse();
 					if (eo_response) {
 						eo_response->getResponse();
@@ -4154,7 +4154,7 @@ namespace mpco {
 					argv[1] = request2.c_str();
 					OutputDescriptor eo_descriptor;
 					OutputDescriptorStream eo_stream(&eo_descriptor);
-					Response *eo_response = elem->setResponse(argv, argc, eo_stream);
+					Response *eo_response = elem->setResponse(argv, argc, &eo_stream);
 					eo_stream.finalizeSetResponse();
 					if (eo_response)
 						delete eo_response; // we don't need it now
@@ -4196,7 +4196,7 @@ namespace mpco {
 						argv[1] = s_trial_num.c_str();
 						OutputDescriptor eo_descriptor;
 						OutputDescriptorStream eo_stream(&eo_descriptor);
-						Response *eo_response = elem->setResponse(argv, argc, eo_stream);
+						Response *eo_response = elem->setResponse(argv, argc, &eo_stream);
 						eo_stream.finalizeSetResponse();
 						if (eo_response)
 							delete eo_response; // we don't need it now
@@ -5275,7 +5275,7 @@ int MPCORecorder::writeModelLocalAxes()
 					*/
 					mpco::element::OutputDescriptor eo_descriptor;
 					mpco::element::OutputDescriptorStream eo_stream(&eo_descriptor);
-					Response *eo_response = elem->setResponse(argv, argc, eo_stream);
+					Response *eo_response = elem->setResponse(argv, argc, &eo_stream);
 					if (eo_response) {
 						eo_response->getResponse();
 						const Vector &local_axes_packed_9 = eo_response->getInformation().getData();
@@ -5476,8 +5476,8 @@ int MPCORecorder::writeSections()
 							mpco::element::OutputDescriptor eo_descriptor;
 							mpco::element::OutputDescriptorStream eo_stream(&eo_descriptor);
 							Response *eo_response = do_workaround_for_aggregator ?
-								elem->setResponse(woagg_argv, woagg_agrc, eo_stream) :
-								elem->setResponse(argv, argc, eo_stream);
+								elem->setResponse(woagg_argv, woagg_agrc, &eo_stream) :
+								elem->setResponse(argv, argc, &eo_stream);
 							eo_stream.finalizeSetResponse();
 							if (eo_response)
 								delete eo_response; // we don't need it now
@@ -6223,7 +6223,7 @@ int MPCORecorder::initElementRecorders()
 											// set response
 											Response *fib_response = 0;
 											bool was_valid_before = (eo_stream.error_code == mpco::element::OutputDescriptorStream::ERROR_CODE_OK);
-											fib_response = elem->setResponse(argv, argc, eo_stream);
+											fib_response = elem->setResponse(argv, argc, &eo_stream);
 											if (fib_response) {
 												num_fib_responses = fib_comp_response->addResponse(fib_response);
 											}
@@ -6242,7 +6242,7 @@ int MPCORecorder::initElementRecorders()
 										}
 									}
 									else {
-										sec_response = elem->setResponse(argv, argc, eo_stream);
+										sec_response = elem->setResponse(argv, argc, &eo_stream);
 									}
 									if (sec_response) {
 										num_sec_responses = sec_comp_response->addResponse(sec_response);
@@ -6273,7 +6273,7 @@ int MPCORecorder::initElementRecorders()
 								std::string s_material_id = ss_material_id.str();
 								argv[material_id_placeholder_index] = s_material_id.c_str();
 								// set response
-								Response *mat_response = elem->setResponse(argv, argc, eo_stream);
+								Response *mat_response = elem->setResponse(argv, argc, &eo_stream);
 								if (mat_response) {
 									num_mat_responses = mat_comp_response->addResponse(mat_response);
 								}
@@ -6290,7 +6290,7 @@ int MPCORecorder::initElementRecorders()
 							}
 						}
 						else {
-							eo_response = elem->setResponse(argv, argc, eo_stream);
+							eo_response = elem->setResponse(argv, argc, &eo_stream);
 						}
 						eo_stream.finalizeSetResponse();
 						if (do_all_fibers) {
