@@ -1,0 +1,111 @@
+#==============================================================================
+# 
+#        OpenSees -- Open System For Earthquake Engineering Simulation
+#                Pacific Earthquake Engineering Research Center
+#
+#==============================================================================
+target_sources(OPS_Material
+  PRIVATE
+    NDMaterial.cpp
+    BeamFiberMaterial.cpp
+    PlasticDamageConcretePlaneStress.cpp
+    BeamFiberMaterial2d.cpp
+    BeamFiberMaterial2dPS.cpp
+    FSAM.cpp
+    ElasticIsotropicMaterial.cpp
+    ElasticIsotropicPlaneStrain2D.cpp
+    ElasticIsotropicPlaneStress2D.cpp
+    ElasticIsotropicPlateFiber.cpp
+    ElasticOrthotropicMaterial.cpp
+    ElasticOrthotropicThreeDimensional.cpp
+    PressureDependentElastic3D.cpp
+    J2AxiSymm.cpp
+    J2PlaneStrain.cpp
+    J2PlaneStress.cpp
+    J2Plasticity.cpp
+    J2PlateFiber.cpp
+    J2PlateFibre.cpp
+    J2BeamFiber2d.cpp
+    J2BeamFiber3d.cpp
+    J2ThreeDimensional.cpp
+    PlaneStrainMaterial.cpp
+    PlaneStressMaterial.cpp
+    PlateFiberMaterial.cpp
+    PlateFromPlaneStressMaterial.cpp
+    PlaneStressLayeredMaterial.cpp
+    PlateRebarMaterial.cpp
+    PlaneStressRebarMaterial.cpp
+    OrthotropicMaterial.cpp
+    Series3DMaterial.cpp
+    Parallel3DMaterial.cpp
+    DruckerPrager3DThermal.cpp
+    DruckerPragerThermal.cpp
+    ElasticIsotropic3DThermal.cpp
+    ElasticIsotropicMaterialThermal.cpp
+    J2PlasticityThermal.cpp
+    J2ThreeDimensionalThermal.cpp
+    PlateFiberMaterialThermal.cpp
+    PlateFromPlaneStressMaterialThermal.cpp
+    PlateRebarMaterialThermal.cpp
+    ElasticPlaneStress.cpp
+    ElasticOrthotropicPlaneStress.cpp
+  PUBLIC
+    NDMaterial.h
+    BeamFiberMaterial.h
+    PlasticDamageConcretePlaneStress.h
+    BeamFiberMaterial2d.h
+    BeamFiberMaterial2dPS.h
+    FSAM.h
+    ElasticIsotropicMaterial.h
+    ElasticIsotropicPlaneStrain2D.h
+    ElasticIsotropicPlaneStress2D.h
+    ElasticIsotropicPlateFiber.h
+    ElasticOrthotropicMaterial.h
+    ElasticOrthotropicThreeDimensional.h
+    PressureDependentElastic3D.h
+    J2AxiSymm.h
+    J2PlaneStrain.h
+    J2PlaneStress.h
+    J2Plasticity.h
+    J2PlateFiber.h
+    J2PlateFibre.h
+    J2BeamFiber2d.h
+    J2BeamFiber3d.h
+    J2ThreeDimensional.h
+    PlaneStrainMaterial.h
+    PlaneStressMaterial.h
+    PlateFiberMaterial.h
+    PlateFromPlaneStressMaterial.h
+    PlaneStressLayeredMaterial.h
+    PlateRebarMaterial.h
+    PlaneStressRebarMaterial.h
+    OrthotropicMaterial.h
+    Series3DMaterial.h
+    Parallel3DMaterial.h
+    DruckerPrager3DThermal.h
+    DruckerPragerThermal.h
+    ElasticIsotropic3DThermal.h
+    ElasticIsotropicMaterialThermal.h
+    J2PlasticityThermal.h
+    J2ThreeDimensionalThermal.h
+    PlateFiberMaterialThermal.h
+    PlateFromPlaneStressMaterialThermal.h
+    PlateRebarMaterialThermal.h
+    ElasticPlaneStress.h
+    ElasticOrthotropicPlaneStress.h
+)
+
+target_include_directories(OPS_Material PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+
+add_subdirectory(soil)
+#add_subdirectory(feap)  # pruned (Win64)
+#add_subdirectory(cyclicSoil)  # pruned (Win64)
+add_subdirectory(reinforcedConcretePlaneStress)
+add_subdirectory(UWmaterials)
+add_subdirectory(matCMM)
+add_subdirectory(stressDensityModel)
+#add_subdirectory(UANDESmaterials)  # pruned (Win64)
+add_subdirectory(OrthotropicRotatingAngleConcreteT2DMaterial01)
+add_subdirectory(SmearedSteelDoubleLayerT2DMaterial01)
+#add_subdirectory(ASDPlasticMaterial3D)  # pruned (Win64)
+
