@@ -62,7 +62,7 @@ add_subdirectory(frictionBearing)
 add_subdirectory(elastomericBearing)
 #add_subdirectory(generic)  # pruned (Win64)
 add_subdirectory(joint)
-#add_subdirectory(surfaceLoad)  # pruned (Win64)
+add_subdirectory(surfaceLoad)
 
 #add_subdirectory(feap)  # pruned (Win64)
 

@@ -84,8 +84,8 @@ jobs:
           echo ===== OPENSEESPY RESPONSE FILE =====
           type CMakeFiles\OpenSeesPy.rsp
 
-          cmake --build . --config Release --target OpenSees -j8
-          cmake --build . --config Release --target OpenSeesPy -j8
+          cmake --build . --config Release --target OpenSees -j8 --verbose
+          cmake --build . --config Release --target OpenSeesPy -j8 --verbose
       - name: Verification OpenSeesPySP
         shell: pwsh
         run: |

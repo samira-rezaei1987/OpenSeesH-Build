@@ -53,6 +53,7 @@ target_sources(OPS_Material
       Concrete07.cpp
       ConcreteECThermal.cpp
       DamperMaterial.cpp
+      DoddRestr.cpp
       ENTMaterial.cpp
       EPPGapMaterial.cpp
       ElasticMaterialThermal.cpp
@@ -113,6 +114,7 @@ target_sources(OPS_Material
       ConcreteECThermal.h
       #ConfinedConcrete.h
       DamperMaterial.h
+      DoddRestr.h
       ENTMaterial.h
       EPPGapMaterial.h
       ElasticMaterialThermal.h

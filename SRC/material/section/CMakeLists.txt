@@ -26,6 +26,8 @@ target_sources(OPS_Material
     SectionAggregator.cpp
     SectionForceDeformation.cpp
     TimoshenkoSection3d.cpp
+    FiberSectionWarping3d.cpp
+    ParallelSection.cpp
     PUBLIC
     DoubleMembranePlateFiberSection.h
     ElasticMembranePlateSection.h
@@ -47,6 +49,8 @@ target_sources(OPS_Material
     SectionAggregator.h
     SectionForceDeformation.h
     TimoshenkoSection3d.h
+    FiberSectionWarping3d.h
+    ParallelSection.h
 )
 
 target_include_directories(OPS_Material PUBLIC ${CMAKE_CURRENT_LIST_DIR})

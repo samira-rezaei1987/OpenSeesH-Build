@@ -107,5 +107,5 @@ add_subdirectory(stressDensityModel)
 #add_subdirectory(UANDESmaterials)  # pruned (Win64)
 add_subdirectory(OrthotropicRotatingAngleConcreteT2DMaterial01)
 add_subdirectory(SmearedSteelDoubleLayerT2DMaterial01)
-#add_subdirectory(ASDPlasticMaterial3D)  # pruned (Win64)
+add_subdirectory(ASDPlasticMaterial3D)
 

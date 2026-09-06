@@ -757,6 +757,7 @@ target_link_libraries(OpenSeesPy
    OPS_Material
    OPS_Element
    OPS_Domain
+   OPS_Runtime
 
    "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
    "${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
@@ -866,7 +867,7 @@ endif()
 # Reliability
 #----------------------------
 #if ("OPS_Reliability" IN_LIST OPS_Extension_List)
-    add_compile_definitions(_RELIABILITY)
+    #add_compile_definitions(_RELIABILITY)
     #target_link_libraries(${OPS_FINAL_TARGET} OPS_Reliability)
 #endif()
 
