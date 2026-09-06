@@ -151,7 +151,11 @@ TclModelBuilderParameterCommand(ClientData clientData, Tcl_Interp* interp,
 		return TCL_OK;
 	}
 
-	RandomVariable* theRV = 0;
+	#ifdef _RELIABILITY
+    RandomVariable* theRV = 0;
+#else
+    void* theRV = 0;
+#endif
 
 	// Now handle the parameter according to which command is invoked
 	if (strcmp(argv[0], "parameter") == 0 || strcmp(argv[0], "addToParameter") == 0) {

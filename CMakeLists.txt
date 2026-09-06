@@ -757,7 +757,7 @@ target_link_libraries(OpenSeesPy
    OPS_Material
    OPS_Element
    OPS_Domain
-   OPS_InterpTcl
+
 
    "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
    "${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
