@@ -89,7 +89,9 @@ jobs:
       - name: Verification OpenSeesPySP
         shell: pwsh
         run: |
-          mv ./build/bin/OpenSeesPy.dll ./build/bin/openseesH.pyd
+          mv ./build/bin/OpenSeesPy.dll ./build/bin/OpenseesH.pyd
+          Get-ChildItem ./build/bin
+          Test-Path ./build/bin/OpenseesH.pyd
           cp "C:\Program Files (x86)\Intel\oneAPI\compiler\latest\bin\libiomp5md.dll" ./build/bin/
           $env:PYTHONPATH = "./build/bin/"
           python -c "import sys; print(sys.path)"
