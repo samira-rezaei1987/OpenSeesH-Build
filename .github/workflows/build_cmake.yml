@@ -90,7 +90,7 @@ jobs:
         shell: pwsh
         run: |
           mv ./build/bin/OpenSeesPy.dll ./build/bin/opensees.pyd
-          cp "C:\Program Files (x86)\Intel\oneAPI\compiler\2024.1\bin\libiomp5md.dll" ./build/bin/
+          cp "C:\Program Files (x86)\Intel\oneAPI\compiler\latest\bin\libiomp5md.dll" ./build/bin/
           $env:PYTHONPATH = "./build/bin/"
           python -c "import sys; print(sys.path)"
           python ./EXAMPLES/ExamplePython/example_variable_analysis.py
