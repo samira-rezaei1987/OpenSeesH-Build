@@ -1282,14 +1282,14 @@ FiberSectionWarping3d::setResponse(const char **argv, int argc, OPS_Stream &outp
 	output.attr("zLoc",matData[4*key+1]);
 	output.attr("area",matData[4*key+2]);
 	
-	theResponse =  theMaterials[key]->setResponse(&argv[passarg], argc-passarg, output);
+	theResponse =  theMaterials[key]->setResponse(&argv[passarg], argc-passarg, &output);
 	
 	output.endTag();
       }
   }
 
   if (theResponse == 0)
-    return SectionForceDeformation::setResponse(argv, argc, output);
+    return SectionForceDeformation::setResponse(argv, argc, &output);
 
   return theResponse;  
 }
