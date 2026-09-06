@@ -603,6 +603,12 @@ target_link_libraries(OpenSees
   ${CMAKE_DL_LIBS} 
   ${HDF5_LIBRARIES} 
   ${CONAN_LIBS}
+"${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
+"${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
+"${CONAN_LIB_DIRS_HDF5}/libhdf5_hl.lib"
+"${CONAN_LIB_DIRS_HDF5}/libhdf5.lib"
+"${CONAN_LIB_DIRS_ZLIB}/zlib.lib"
+
 )
 
 endif() # OPS_WITH_TCL
@@ -727,8 +733,9 @@ if(MPI_FOUND AND OPS_WITH_TCL)
        ${CONAN_LIBS}
        ${MPI_CXX_LIBRARIES}
        ${SCALAPACK_LIBRARIES}
-       ${MPI_Fortran_LIBRARIES}       
+       ${MPI_Fortran_LIBRARIES}
        ${MPI_CXX_LINK_FLAGS}
+
     )
     
 endif()
@@ -757,7 +764,7 @@ target_link_libraries(OpenSeesPy
    OPS_Material
    OPS_Element
    OPS_Domain
-
+   OPS_InterpTcl
 
    "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
    "${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
