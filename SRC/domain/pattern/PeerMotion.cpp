@@ -90,21 +90,36 @@ OPS_PeerMotion(void)
     numRemainingArgs -= 1;
   }
   
-  if ((OPS_GetStringCopy(&eqMotion) != 0) || eqMotion == 0) {
+  const char *tmpEqMotion = OPS_GetString();
+
+if (tmpEqMotion == 0) {
     opserr << "WARNING invalid eqMotion for PeerMotion with tag: " << tag << endln;
     return 0;
+}
+
+eqMotion = new char[strlen(tmpEqMotion) + 1];
+strcpy(eqMotion, tmpEqMotion);
   }    
 
-    if ((OPS_GetStringCopy(&station) != 0) || station == 0) {
+const char *tmpStation = OPS_GetString();
+
+if (tmpStation == 0) {
     opserr << "WARNING invalid station for PeerMotion with tag: " << tag << endln;
     return 0;
-  }    
+}
 
-    if ((OPS_GetStringCopy(&type) != 0) || type == 0) {
-    opserr << "WARNING invalid type  for PeerMotion with tag: " << tag << endln;
+station = new char[strlen(tmpStation) + 1];
+strcpy(station, tmpStation);
+
+const char *tmpType = OPS_GetString();
+
+if (tmpType == 0) {
+    opserr << "WARNING invalid type for PeerMotion with tag: " << tag << endln;
     return 0;
-  }    
+}
 
+type = new char[strlen(tmpType) + 1];
+strcpy(type, tmpType);
 
   if (OPS_GetDouble(&numData, &factor) != 0) {
     opserr << "WARNING invalid facor in PeerMotion Series with tag?" << tag << endln;
