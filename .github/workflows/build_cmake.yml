@@ -79,7 +79,7 @@ jobs:
 
           call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 mod
 
-          cmake .. -G "Ninja"  -DCMAKE_EXE_LINKER_FLAGS="/FORCE:MULTIPLE"  -DCMAKE_SHARED_LINKER_FLAGS="/FORCE:MULTIPLE"-DCMAKE_Fortran_COMPILER="ifx"  -DCMAKE_NINJA_FORCE_RESPONSE_FILE=ON -DBLA_STATIC=ON -DMKL_LINK=static  -DMKL_INTERFACE_FULL=intel_lp64 -DMUMPS_DIR="..\..\mumps\build" -DOPS_WITH_TCL=ON
+          cmake .. -G "Ninja" -DCMAKE_EXE_LINKER_FLAGS="/FORCE:MULTIPLE" -DCMAKE_SHARED_LINKER_FLAGS="/FORCE:MULTIPLE" -DCMAKE_Fortran_COMPILER="ifx" -DCMAKE_NINJA_FORCE_RESPONSE_FILE=ON -DBLA_STATIC=ON -DMKL_LINK=static -DMKL_INTERFACE_FULL=intel_lp64 -DMUMPS_DIR="..\..\mumps\build" -DOPS_WITH_TCL=ON
 
           echo ===== OPENSEESPY RESPONSE FILE =====
           type CMakeFiles\OpenSeesPy.rsp
