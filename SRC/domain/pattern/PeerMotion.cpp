@@ -99,7 +99,6 @@ if (tmpEqMotion == 0) {
 
 eqMotion = new char[strlen(tmpEqMotion) + 1];
 strcpy(eqMotion, tmpEqMotion);
-  }    
 
 const char *tmpStation = OPS_GetString();
 
