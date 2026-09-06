@@ -591,7 +591,7 @@ else ()
      )
 endif()
 
-
+target_link_directories(OpenSees PRIVATE ${CONAN_LIB_DIRS_HDF5} ${CONAN_LIB_DIRS_ZLIB})
 target_link_libraries(OpenSees
   OPS_InterpTcl 
   coordTransformation
@@ -756,6 +756,7 @@ target_include_directories(OpenSeesPy PUBLIC ${Python_INCLUDE_DIRS})
 
 # Resid/Conditional recorders + Win64 OpenSeesPy parity
 target_compile_definitions(OpenSeesPy PRIVATE _CSS _PYTHON3)
+target_link_directories(OpenSeesPy PRIVATE ${CONAN_LIB_DIRS_HDF5} ${CONAN_LIB_DIRS_ZLIB})
 target_link_libraries(OpenSeesPy
    OpenSeesLIB
    OPS_Reliability
