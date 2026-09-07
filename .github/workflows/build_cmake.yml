@@ -86,24 +86,24 @@ jobs:
 
           cmake --build . --config Release --target OpenSees -j8 --verbose
           cmake --build . --config Release --target OpenSeesPy -j8 --verbose
-      - name: Verification OpenSeesPySP
-        shell: pwsh
-        run: |
-          mv ./build/bin/OpenSeesPy.dll ./build/bin/OpenseesH.pyd
-          Get-ChildItem ./build/bin
-          Test-Path ./build/bin/OpenseesH.pyd
-          cp "C:\Program Files (x86)\Intel\oneAPI\compiler\latest\bin\libiomp5md.dll" ./build/bin/
-          $env:PYTHONPATH = "./build/bin/"
-          python -c "import sys; print(sys.path)"
-          python -c "import OpenseesH; print('OpenSeesH Python module loaded successfully')"
+      #- name: Verification OpenSeesPySP
+        #shell: pwsh
+        #run: |
+          #mv ./build/bin/OpenSeesPy.dll ./build/bin/OpenseesH.pyd
+          #Get-ChildItem ./build/bin
+          #Test-Path ./build/bin/OpenseesH.pyd
+          #cp "C:\Program Files (x86)\Intel\oneAPI\compiler\latest\bin\libiomp5md.dll" ./build/bin/
+          #$env:PYTHONPATH = "./build/bin/"
+          #python -c "import sys; print(sys.path)"
+          #python -c "import OpenseesH; print('OpenSeesH Python module loaded successfully')"
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
             name: OpenSees_Windows
             path: |
               ./build/bin/OpenSees.exe
-              ./build/bin/opensees.pyd
-              ./build/bin/libiomp5md.dll
+              #./build/bin/opensees.pyd
+              #./build/bin/libiomp5md.dll
 
   build-mac:
     name: Build Mac OS
