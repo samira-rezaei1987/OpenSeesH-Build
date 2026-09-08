@@ -98,6 +98,7 @@ target_sources(OPS_InterpTcl PRIVATE
     #"${OPS_SRC_DIR}/reliability/tcl/TclReliabilityBuilder.cpp"
     #"${OPS_SRC_DIR}/system_of_eqn/linearSOE/petsc/TclPetsc.cpp"
     #"${OPS_SRC_DIR}/tcl/TclVideoPlayer.cpp"
+	"${OPS_SRC_DIR}/tcl/FeViewer.cpp"
 )
 
 

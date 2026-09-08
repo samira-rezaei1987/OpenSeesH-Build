@@ -591,26 +591,38 @@ else ()
      )
 endif()
 
-target_link_directories(OpenSees PRIVATE ${CONAN_LIB_DIRS_HDF5} ${CONAN_LIB_DIRS_ZLIB})
-target_link_libraries(OpenSees
-  OPS_InterpTcl 
-  coordTransformation
-  OpenSeesLIB
-  OPS_Reliability
-  OPS_ReliabilityTcl  
-  OPS_Numerics
-  OPS_Recorder
-  ${CMAKE_DL_LIBS} 
-  #${HDF5_LIBRARIES} 
-  #${CONAN_LIBS}
-"${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
-"${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
-"${CONAN_LIB_DIRS_HDF5}/libhdf5_hl.lib"
-"${CONAN_LIB_DIRS_HDF5}/libhdf5.lib"
-"${CONAN_LIB_DIRS_ZLIB}/zlib.lib"
-${TCL_LIBRARIES}
+target_link_directories(OpenSees PRIVATE
+    ${CONAN_LIB_DIRS_HDF5}
+    ${CONAN_LIB_DIRS_ZLIB}
+    ${CONAN_LIB_DIRS_TCL}
 )
 
+target_link_libraries(OpenSees
+    OPS_InterpTcl
+    OPS_INTERPRETER
+    coordTransformation
+    OpenSeesLIB
+
+    # OPS_Reliability
+    # OPS_ReliabilityTcl
+
+    OPS_Numerics
+    OPS_Recorder
+    ${CMAKE_DL_LIBS}
+
+    "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
+    "${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
+    "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl.lib"
+    "${CONAN_LIB_DIRS_HDF5}/libhdf5.lib"
+    "${CONAN_LIB_DIRS_ZLIB}/zlib.lib"
+
+    "${CONAN_LIB_DIRS_TCL}/tcl86ts.lib"
+    advapi32
+    netapi32
+    user32
+    userenv
+    ws2_32
+)
 endif() # OPS_WITH_TCL
 
 
