@@ -601,8 +601,8 @@ target_link_libraries(OpenSees
   OPS_Numerics
   OPS_Recorder
   ${CMAKE_DL_LIBS} 
-  ${HDF5_LIBRARIES} 
-  ${CONAN_LIBS}
+  #${HDF5_LIBRARIES} 
+  #${CONAN_LIBS}
 "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl_cpp.lib"
 "${CONAN_LIB_DIRS_HDF5}/libhdf5_cpp.lib"
 "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl.lib"
