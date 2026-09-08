@@ -596,7 +596,9 @@ target_link_directories(OpenSees PRIVATE
     ${CONAN_LIB_DIRS_ZLIB}
     ${CONAN_LIB_DIRS_TCL}
 )
-
+target_sources(OpenSees PRIVATE
+    "${OPS_SRC_DIR}/recorder/OpsRecorderCommands.cpp"
+)
 target_link_libraries(OpenSees
     OPS_InterpTcl
     OPS_INTERPRETER
