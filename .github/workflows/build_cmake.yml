@@ -87,7 +87,7 @@ jobs:
           dir /s /b C:\Users\runneradmin\.conan\data\tcl\*.lib
           echo ===== END TCL LIBRARIES =====
           cmake --build . --config Release --target OpenSees -j8 --verbose
-          #cmake --build . --config Release --target OpenSeesPy -j8 --verbose
+          REM cmake --build . --config Release --target OpenSeesPy -j8 --verbose
       #- name: Verification OpenSeesPySP
         #shell: pwsh
         #run: |

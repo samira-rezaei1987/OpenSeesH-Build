@@ -608,7 +608,7 @@ target_link_libraries(OpenSees
 "${CONAN_LIB_DIRS_HDF5}/libhdf5_hl.lib"
 "${CONAN_LIB_DIRS_HDF5}/libhdf5.lib"
 "${CONAN_LIB_DIRS_ZLIB}/zlib.lib"
-
+${TCL_LIBRARIES}
 )
 
 endif() # OPS_WITH_TCL
