@@ -96,11 +96,13 @@ jobs:
           #$env:PYTHONPATH = "./build/bin/"
           #python -c "import sys; print(sys.path)"
           #python -c "import OpenseesH; print('OpenSeesH Python module loaded successfully')"
-      - name: Find OpenSees executable
-        shell: pwsh
+      - name: Inspect Windows build outputs
+        shell: cmd
         run: |
-          Write-Host "Searching for OpenSees executables..."
-          Get-ChildItem -Path ./build -Recurse -File | Where-Object { $_.Name -like "OpenSees*" } | Select-Object FullName, Length
+          echo ===== BUILD BIN =====
+          dir /a /s build\bin
+          echo ===== EXE FILES =====
+          dir /a /s /b build\*.exe 2>nul || echo No EXE files found
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
