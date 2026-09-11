@@ -13,7 +13,20 @@ jobs:
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
+      - name: Build Tcl/Tk 8.6
+        shell: cmd
+        run: |
+          git clone --depth 1 --branch core-8-6-18 https://github.com/tcltk/tcl.git C:\tcl-src
+          git clone --depth 1 --branch core-8-6-18 https://github.com/tcltk/tk.git C:\tk-src
 
+          cd /d C:\tcl-src\win
+          nmake -f makefile.vc release MACHINE=AMD64
+          nmake -f makefile.vc install MACHINE=AMD64 INSTALLDIR="C:\Program Files\tcl"
+
+          cd /d C:\tk-src\win
+          nmake -f makefile.vc release MACHINE=AMD64 TCLDIR=C:\tcl-src
+          nmake -f makefile.vc install MACHINE=AMD64 TCLDIR=C:\tcl-src INSTALLDIR="C:\Program Files\tcl"
+        
       - name: Prepare project
         shell: powershell
         run: |
@@ -38,7 +51,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          msbuild Win64\OpenSees.sln /m /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
+          msbuild Win64\OpenSees.sln /m /t:OpenSees /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 msbuild Win64\OpenSees.sln /m /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
 
       - name: Find executable
         if: always()
