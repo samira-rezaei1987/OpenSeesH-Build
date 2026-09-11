@@ -16,6 +16,8 @@ jobs:
       - name: Build Tcl/Tk 8.6
         shell: cmd
         run: |
+          for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set VSINSTALL=%%i
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
           git clone --depth 1 --branch core-8-6-18 https://github.com/tcltk/tcl.git C:\tcl-src
           git clone --depth 1 --branch core-8-6-18 https://github.com/tcltk/tk.git C:\tk-src
 
