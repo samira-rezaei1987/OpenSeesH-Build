@@ -28,6 +28,11 @@ jobs:
               $txt = $txt -replace '<PlatformToolset>v142</PlatformToolset>', '<PlatformToolset>v143</PlatformToolset>'
               Set-Content $file $txt
           }
+          Write-Host "Redirecting OpenSeesH output into repository..."
+          $openSeesProject = "Win64\proj\openSees\OpenSees.vcxproj"
+          $txt = Get-Content $openSeesProject -Raw
+          $txt = $txt -replace 'C:\\Users\\Alireza\\AppData\\Roaming\\OpenSees House\\OpenSeesH\\bin', '..\..\bin\release'
+          Set-Content $openSeesProject $txt
 
       - name: Build
         shell: cmd
