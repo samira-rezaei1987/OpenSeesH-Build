@@ -52,7 +52,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          msbuild Win64\OpenSees.sln /m /t:OpenSees /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143msbuild Win64\OpenSees.sln /m /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
+          msbuild -noAutoResponse Win64\OpenSees.sln /m /t:OpenSees /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
 
       - name: Find executable
         if: always()
