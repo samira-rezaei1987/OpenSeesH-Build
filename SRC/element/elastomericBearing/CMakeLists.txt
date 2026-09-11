@@ -1,0 +1,22 @@
+#==============================================================================
+# 
+#        OpenSees -- Open System For Earthquake Engineering Simulation
+#                Pacific Earthquake Engineering Research Center
+#
+#==============================================================================
+
+target_sources(OPS_Element
+    PRIVATE
+        ElastomericX.cpp
+        HDR.cpp
+        LeadRubberX.cpp
+        #TclElastomericBearingBoucWenCommand.cpp
+        #TclElastomericBearingPlasticityCommand.cpp
+        #TclElastomericBearingUFRPCommand.cpp
+    PUBLIC
+        ElastomericX.h
+        HDR.h
+        LeadRubberX.h
+)
+target_include_directories(OPS_Element PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+
