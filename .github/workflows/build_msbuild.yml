@@ -1,0 +1,56 @@
+name: Build OpenSeesH MSBuild
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Prepare project
+        shell: powershell
+        run: |
+          Write-Host "Extracting bundled Fortran libraries..."
+          Expand-Archive -Path "Win64\lib\externalLibs.zip" -DestinationPath "Win64\lib" -Force
+
+          Write-Host "Changing Visual Studio toolset to v143..."
+          Get-ChildItem "Win64\proj" -Recurse -Filter *.vcxproj | ForEach-Object {
+              $file = $_.FullName
+              $txt = Get-Content $file -Raw
+              $txt = $txt -replace '<PlatformToolset>v145</PlatformToolset>', '<PlatformToolset>v143</PlatformToolset>'
+              $txt = $txt -replace '<PlatformToolset>v142</PlatformToolset>', '<PlatformToolset>v143</PlatformToolset>'
+              Set-Content $file $txt
+          }
+
+          Write-Host "Redirecting OpenSeesH output into repository..."
+          $openSeesProject = "Win64\proj\openSees\OpenSees.vcxproj"
+          $txt = Get-Content $openSeesProject -Raw
+          $txt = $txt -replace 'C:\\Users\\Alireza\\AppData\\Roaming\\OpenSees House\\OpenSeesH\\bin', '..\..\bin\release'
+          Set-Content $openSeesProject $txt
+
+      - name: Build
+        shell: cmd
+        run: |
+          msbuild Win64\OpenSees.sln /m /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
+
+      - name: Find executable
+        if: always()
+        shell: powershell
+        run: |
+          Get-ChildItem . -Recurse -Filter "OpenSeesH.exe" -ErrorAction SilentlyContinue |
+          Select-Object FullName,Length,LastWriteTime
+
+      - name: Upload executable
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenSeesH-MSBuild
+          path: |
+            Win64/bin/**/*.exe
