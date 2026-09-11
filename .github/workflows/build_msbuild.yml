@@ -35,6 +35,10 @@ jobs:
           Write-Host "Extracting bundled Fortran libraries..."
           Expand-Archive -Path "Win64\lib\externalLibs.zip" -DestinationPath "Win64\lib" -Force
 
+          Write-Host "Extracting original OpenSeesH release libraries..."
+          New-Item -ItemType Directory -Force -Path "Win64\lib\release" | Out-Null
+          Expand-Archive -Path "Win64\lib\OpenSeesH_Win64_release_libs.zip" -DestinationPath "Win64\lib\release" -Force
+
           Write-Host "Changing Visual Studio toolset to v143..."
           Get-ChildItem "Win64\proj" -Recurse -Filter *.vcxproj | ForEach-Object {
               $file = $_.FullName
