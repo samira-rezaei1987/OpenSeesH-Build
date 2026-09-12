@@ -607,10 +607,15 @@ FiberSection3dThermal::getTemperatureStress(const Vector& dataMixed)
 	yi = matData[jy];
     zi = matData[jz];
 
-	double FiberTemperature = 0 ; //JZ
-	double FiberTempMax=0; //PK add for max temp
+	double FiberTemperature = 0.0;
+    double FiberTempMax = Fiber_TMax[i];
 
-	FiberTemperature= this->determineFiberTemperature( dataMixed, -yi, zi);
+    FiberTemperature = this->determineFiberTemperature(dataMixed, -yi, zi);
+
+    // Keep the maximum temperature reached by THIS fiber
+    if (FiberTemperature > FiberTempMax) {
+        FiberTempMax = FiberTemperature;
+  }
 
     // determine material strain and set it
 	double tangent =0.0;
