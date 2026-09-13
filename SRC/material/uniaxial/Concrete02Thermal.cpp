@@ -568,6 +568,24 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
 
 		// Calculating epscu
 		epscu = epsc0 + ((epscumax - epsc0max) * fc / fcmax);
+		if (epsc0 != epsc0 || epscu != epscu ||
+            epsc0max != epsc0max || epscumax != epscumax) {
+
+            opserr << "\n=== NAN CREATED IN COOLING STRAINS ===\n";
+            opserr << "Temp      = " << Temp << endln;
+            opserr << "TempP     = " << TempP << endln;
+            opserr << "Tempmax   = " << Tempmax << endln;
+
+           opserr << "fc        = " << fc << endln;
+           opserr << "fcmax     = " << fcmax << endln;
+
+           opserr << "epsc0max  = " << epsc0max << endln;
+           opserr << "epscumax  = " << epscumax << endln;
+           opserr << "epsc0     = " << epsc0 << endln;
+           opserr << "epscu     = " << epscu << endln;
+
+           opserr << "======================================\n";
+        }
 
 		ft = 0;
 
