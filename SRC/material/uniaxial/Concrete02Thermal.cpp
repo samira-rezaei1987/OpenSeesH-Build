@@ -483,9 +483,32 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
 
 		// Calculation of current compressive strength
 		// linear interpolation between ambient and maximum compressive strength (after and before cooling)
-
+       if (Tempmax <= 0.0 || Tempmax != Tempmax) {
+           opserr << "\n=== BAD TEMPMAX BEFORE COOLING CALC ===\n";
+           opserr << "Temp     = " << Temp << endln;
+           opserr << "TempP    = " << TempP << endln;
+           opserr << "Tempmax  = " << Tempmax << endln;
+           opserr << "fcmax    = " << fcmax << endln;
+           opserr << "fcamb    = " << fcamb << endln;
+           opserr << "fcumax   = " << fcumax << endln;
+           opserr << "fcuamb   = " << fcuamb << endln;
+           opserr << "===================================\n";
+        }
 		fc = fcmax - ((fcmax - fcamb) * (Tempmax - Temp) / Tempmax);
 		fcu = fcumax - ((fcumax - fcuamb) * (Tempmax - Temp) / Tempmax);
+		if (fc != fc || fcu != fcu) {
+            opserr << "\n=== NAN CREATED IN COOLING FC/FCU ===\n";
+            opserr << "Temp     = " << Temp << endln;
+            opserr << "TempP    = " << TempP << endln;
+            opserr << "Tempmax  = " << Tempmax << endln;
+            opserr << "fcmax    = " << fcmax << endln;
+            opserr << "fcamb    = " << fcamb << endln;
+            opserr << "fc       = " << fc << endln;
+            opserr << "fcumax   = " << fcumax << endln;
+            opserr << "fcuamb   = " << fcuamb << endln;
+            opserr << "fcu      = " << fcu << endln;
+            opserr << "====================================\n";
+        }
 
 		// Calculation of epsc0 for Tempmax and then keep it the same for all next time steps
 		if (Tempmax < 0) {
