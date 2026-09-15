@@ -123,7 +123,8 @@ class FiberSection2dThermal : public SectionForceDeformation
     Matrix *ks;        // section stiffness
     //Vector DataMixed;
     Vector FiberTemperatures;
-
+    Vector FiberTempMax;
+	Vector FiberTempMaxCommit;
     Vector  sT;  //  Pointer to sTData
     double *Fiber_Tangent;
     double *Fiber_ElongP;
