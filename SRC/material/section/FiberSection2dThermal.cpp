@@ -477,14 +477,7 @@ FiberSection2dThermal::setTrialSectionDeformation(const Vector& deforms)
 		tData(2) = ThermalElongation;
 		tData(3) = FiberTempMax[i];
 		iData.setVector(tData);
-		if (FiberTemperatures[i] > 570.0 && FiberTemperatures[i] < 585.0) {
-           opserr << "\n=== 2D SETTRIAL TMAX TRACE ===\n";
-           opserr << "fiber i          = " << i << endln;
-           opserr << "FiberTemperature = " << FiberTemperatures[i] << endln;
-           opserr << "FiberTempMax     = " << FiberTempMax[i] << endln;
-           opserr << "tData(3) BEFORE  = " << tData(3) << endln;
-           opserr << "==============================\n";
-  }
+		
 		theMat->getVariable("ElongTangent", iData);
 		tData = iData.getData();
 		tangent = tData(1);
