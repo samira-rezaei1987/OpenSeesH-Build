@@ -597,7 +597,16 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
 		//cooling=1;
 	//opserr << "Heating,T,TP,Tmax " << Temp << " " << TempP << " " << Tempmax <<endln;
 	}
-
+    if (Tempmax > 400.0 && Temp >= 15.0 && Temp <= 30.0) {
+    opserr << "RESIDUAL_CHECK"
+           << " Temp=" << Temp
+           << " TempP=" << TempP
+           << " Tmax=" << Tempmax
+           << " fc=" << fc
+           << " fcT=" << fcT
+           << " epsc0=" << epsc0
+           << endln;
+}
 	return 0;
 }
 
@@ -613,6 +622,7 @@ Concrete02Thermal::commitState(void)
 	epsP = eps;
 
 	TempP = Temp; //PK add set the previous temperature
+	
 
 	return 0;
 }
