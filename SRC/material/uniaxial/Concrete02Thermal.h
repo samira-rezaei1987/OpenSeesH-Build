@@ -67,7 +67,8 @@ class Concrete02Thermal : public UniaxialMaterial
     double epscuT;         
     double ftT;    
     double EtsT;  
-    double cooling; //PK add
+    double cooling;  // Current cooling state
+    double coolingP; // Cooling state at last committed step
     double Tempmax;  // PK add max temp
     
     
@@ -79,6 +80,14 @@ class Concrete02Thermal : public UniaxialMaterial
     double rat;   // ratio between unloading slope at epscu and original slope : mp(5)
     double ft;    // concrete tensile strength               : mp(6)
     double Ets;   // tension stiffening slope                : mp(7)
+	
+    // Thermal material properties at last committed step
+    double fcP;
+    double fcuP;
+    double epsc0P;
+    double epscuP;
+    double ftP;
+    double EtsP;
 
 
 

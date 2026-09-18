@@ -67,6 +67,12 @@ Concrete02Thermal::Concrete02Thermal(int tag, double _fc, double _epsc0, double 
 	epscu = epscuT;
 	ft = ftT;
 	Ets = EtsT;
+	fcP = fc;
+    fcuP = fcu;
+    epsc0P = epsc0;
+    epscuP = epscu;
+    ftP = ft;
+    EtsP = Ets;
 	//JZ 07/10 /////////////////////////////////////////////////////////////end 
 
 	ecminP = 0.0;
@@ -86,6 +92,10 @@ Concrete02Thermal::Concrete02Thermal(int tag, double _fc, double _epsc0, double 
 	ThermalElongation = 0; //initialize 
 
 	cooling = 0; //PK add
+	coolingP = 0.0;
+	Temp = 0.0;
+	Tempmax = 0.0;
+	steps = 0.0;
 	TempP = 0.0; //Pk add previous temp
 
 }
@@ -94,6 +104,12 @@ Concrete02Thermal::Concrete02Thermal(void) :
 	UniaxialMaterial(0, MAT_TAG_Concrete02Thermal)
 {
 	EnergyP = 0;
+	fcP = 0.0;
+    fcuP = 0.0;
+    epsc0P = 0.0;
+    epscuP = 0.0;
+    ftP = 0.0;
+    EtsP = 0.0;
 }
 
 Concrete02Thermal::~Concrete02Thermal(void)
@@ -105,8 +121,37 @@ Concrete02Thermal::~Concrete02Thermal(void)
 UniaxialMaterial*
 Concrete02Thermal::getCopy(void)
 {
-	Concrete02Thermal* theCopy = new Concrete02Thermal(this->getTag(), fc, epsc0, fcu, epscu, rat, ft, Ets);
+	Concrete02Thermal* theCopy = new Concrete02Thermal(this->getTag(), fcT, epsc0T, fcuT, epscuT, rat, ftT, EtsT);
 	theCopy->EnergyP = EnergyP;
+	theCopy->fc = fc;
+	theCopy->epsc0 = epsc0;
+	theCopy->fcu = fcu;
+	theCopy->epscu = epscu;
+	theCopy->ft = ft;
+	theCopy->Ets = Ets;
+	theCopy->ThermalElongation = ThermalElongation;
+	theCopy->cooling = cooling;
+	theCopy->coolingP = coolingP;
+	theCopy->strainRatio = strainRatio;
+	theCopy->ecminP = ecminP;
+	theCopy->deptP = deptP;
+	theCopy->epsP = epsP;
+	theCopy->sigP = sigP;
+	theCopy->eP = eP;
+	theCopy->eps = eps;
+	theCopy->sig = sig;
+	theCopy->e = e;
+	theCopy->ecmin = ecmin;
+	theCopy->dept = dept;
+	theCopy->Tempmax = Tempmax;
+	theCopy->Temp = Temp;
+	theCopy->TempP = TempP;
+	theCopy->fcP = fcP;
+    theCopy->fcuP = fcuP;
+    theCopy->epsc0P = epsc0P;
+    theCopy->epscuP = epscuP;
+    theCopy->ftP = ftP;
+    theCopy->EtsP = EtsP;
 	return theCopy;
 }
 
@@ -382,8 +427,8 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
 
 ///PK COOLING PART FOR DESCENDING BRANCH OF A FIRE//// 
 	// If temperature is less that previous committed temp then we have cooling taking place
-	if (Temp < TempP) {
-
+	if (Temp < TempP || cooling == 1.0) {
+        cooling = 1.0;
 		//opserr << "cooling " << Temp << " " << TempP << endln;
 
 		double kappa;
@@ -494,8 +539,15 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
            opserr << "fcuamb   = " << fcuamb << endln;
            opserr << "===================================\n";
         }
-		fc = fcmax - ((fcmax - fcamb) * (Tempmax - Temp) / Tempmax);
-		fcu = fcumax - ((fcumax - fcuamb) * (Tempmax - Temp) / Tempmax);
+		if (Tempmax > 0.0 && Tempmax <= 1080.0) {
+            fc = fcmax - ((fcmax - fcamb) * (Tempmax - Temp) / Tempmax);
+            fcu = fcumax - ((fcumax - fcuamb) * (Tempmax - Temp) / Tempmax);
+        }
+        else {
+            opserr << "Concrete02Thermal: invalid Tempmax in cooling = "
+                   << Tempmax << endln;
+            return -1;
+        }
 		if (fc != fc || fcu != fcu) {
             opserr << "\n=== NAN CREATED IN COOLING FC/FCU ===\n";
             opserr << "Temp     = " << Temp << endln;
@@ -567,6 +619,11 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
 		epsc0 = epsc0max;
 
 		// Calculating epscu
+		if (fcmax == 0.0 || fcmax != fcmax) {
+          opserr << "Concrete02Thermal: invalid fcmax in cooling = "
+                 << fcmax << endln;
+          return -1;
+        }
 		epscu = epsc0 + ((epscumax - epsc0max) * fc / fcmax);
 		if (epsc0 != epsc0 || epscu != epscu ||
             epsc0max != epsc0max || epscumax != epscumax) {
@@ -593,6 +650,7 @@ Concrete02Thermal::getElongTangent(double TempT, double& ET, double& Elong, doub
 	 // Elong =0;
 
 	}
+	ET = 1.5 * fc / epsc0;
 	if (Temp > 0) {
 		//cooling=1;
 	//opserr << "Heating,T,TP,Tmax " << Temp << " " << TempP << " " << Tempmax <<endln;
@@ -622,6 +680,13 @@ Concrete02Thermal::commitState(void)
 	epsP = eps;
 
 	TempP = Temp; //PK add set the previous temperature
+	coolingP = cooling;
+	fcP = fc;
+    fcuP = fcu;
+    epsc0P = epsc0;
+    epscuP = epscu;
+    ftP = ft;
+    EtsP = Ets
 	
 
 	return 0;
@@ -638,7 +703,13 @@ Concrete02Thermal::revertToLastCommit(void)
     eps = epsP;
 
     Temp = TempP;
-
+    cooling = coolingP;
+	fc = fcP;
+    fcu = fcuP;
+    epsc0 = epsc0P;
+    epscu = epscuP;
+    ft = ftP;
+    Ets = EtsP;
     return 0;
 }
 int
@@ -647,12 +718,20 @@ Concrete02Thermal::revertToStart(void)
 	ecminP = 0.0;
 	deptP = 0.0;
 	EnergyP = 0;
+	coolingP = 0.0;
+    cooling = 0.0;
 	eP = 2.0 * fc / epsc0;
 	epsP = 0.0;
 	sigP = 0.0;
 	eps = 0.0;
 	sig = 0.0;
 	e = 2.0 * fc / epsc0;
+	fcP = fc;
+    fcuP = fcu;
+    epsc0P = epsc0;
+    epscuP = epscu;
+    ftP = ft;
+    EtsP = Ets;
 
 	return 0;
 }
@@ -660,7 +739,7 @@ Concrete02Thermal::revertToStart(void)
 int
 Concrete02Thermal::sendSelf(int commitTag, Channel& theChannel)
 {
-	static Vector data(18);
+	static Vector data(31);
 	data(0) = fc;
 	data(1) = epsc0;
 	data(2) = fcu;
@@ -679,6 +758,20 @@ Concrete02Thermal::sendSelf(int commitTag, Channel& theChannel)
 	data(15) = cooling;
 	data(16) = Tempmax;
 	data(17) = EnergyP;
+	data(18) = coolingP;
+	data(19) = fcP;
+    data(20) = fcuP;
+    data(21) = epsc0P;
+    data(22) = epscuP;
+    data(23) = ftP;
+    data(24) = EtsP;
+
+    data(25) = fcT;
+    data(26) = fcuT;
+    data(27) = epsc0T;
+    data(28) = epscuT;
+    data(29) = ftT;
+    data(30) = EtsT;
 	if (theChannel.sendVector(this->getDbTag(), commitTag, data) < 0) {
 		opserr << "Concrete02Thermal::sendSelf() - failed to sendSelf\n";
 		return -1;
@@ -691,7 +784,7 @@ Concrete02Thermal::recvSelf(int commitTag, Channel& theChannel,
 	FEM_ObjectBroker& theBroker)
 {
 
-	static Vector data(18);
+	static Vector data(31);
 
 	if (theChannel.recvVector(this->getDbTag(), commitTag, data) < 0) {
 		opserr << "Concrete02Thermal::recvSelf() - failed to recvSelf\n";
@@ -716,6 +809,20 @@ Concrete02Thermal::recvSelf(int commitTag, Channel& theChannel,
 	cooling = data(15);
 	Tempmax = data(16);
 	EnergyP = data(17);
+	coolingP = data(18);
+	fcP = data(19);
+    fcuP = data(20);
+    epsc0P = data(21);
+    epscuP = data(22);
+    ftP = data(23);
+    EtsP = data(24);
+
+    fcT = data(25);
+    fcuT = data(26);
+    epsc0T = data(27);
+    epscuT = data(28);
+    ftT = data(29);
+    EtsT = data(30);
 	Temp = TempP;
 	e = eP;
 	sig = sigP;
