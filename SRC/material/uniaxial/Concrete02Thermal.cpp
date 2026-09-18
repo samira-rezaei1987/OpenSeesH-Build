@@ -686,7 +686,7 @@ Concrete02Thermal::commitState(void)
     epsc0P = epsc0;
     epscuP = epscu;
     ftP = ft;
-    EtsP = Ets
+    EtsP = Ets;
 	
 
 	return 0;
