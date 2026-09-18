@@ -448,7 +448,7 @@ FiberSection2dThermal::~FiberSection2dThermal()
 		delete[] Fiber_ElongP;
 	if (Fiber_ElongCommit != 0)
     delete[] Fiber_ElongCommit;
-	    delete[] Fiber_ElongCommit;
+	    
 }
 
 
