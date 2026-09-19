@@ -595,6 +595,22 @@ Steel02Thermal::getElongTangent(double TempT, double& ET, double& Elong, double 
                << endln;
     }
    }
+   // Diagnostic: check residual steel properties during cooling
+   static bool steelCoolingPrinted = false;
+
+    if (!steelCoolingPrinted &&
+        TempTmax > 500.0 &&
+        TempT < 30.0) {
+
+        opserr << "STEEL_COOLING_CHECK"
+               << " TempT=" << TempT
+               << " TempTmax=" << TempTmax
+               << " Fy=" << Fy
+               << " E0=" << E0
+               << endln;
+
+    steelCoolingPrinted = true;
+}
 
 
 	// calculation of thermal elongation of reinforcing steel. JZ
