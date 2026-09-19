@@ -579,7 +579,24 @@ Steel02Thermal::getElongTangent(double TempT, double& ET, double& Elong, double 
     E0 = E0Res + coolingRatio * (E0Peak - E0Res);
 
     } // End of cooling block
-    
+	
+    // Diagnostic: print only once
+    static bool steelResidualPrinted = false;
+
+    if (!steelResidualPrinted &&
+        TempTmax > 500.0 &&
+        TempT <= 1.0) {
+
+        opserr << "STEEL_RESIDUAL_CHECK"
+               << " TempT=" << TempT
+               << " TempTmax=" << TempTmax
+               << " Fy=" << Fy
+               << " E0=" << E0
+               << endln;
+
+        steelResidualPrinted = true;
+    }
+
 
 	// calculation of thermal elongation of reinforcing steel. JZ
  //opserr<<TempT<<endln;
