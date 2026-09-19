@@ -500,6 +500,86 @@ Steel02Thermal::getElongTangent(double TempT, double& ET, double& Elong, double 
 	else {
 		opserr << "Steel02Thermal::the temperature is invalid\n";
 	}
+	// Post-fire residual properties based on Tao et al. (2013)
+    // Linear interpolation during cooling is an additional modelling assumption.
+
+    if (TempTmax > 20.0 && TempT < TempTmax - 1.0e-8) {
+
+        // Residual properties at 20 C
+        double FyRes = FyT;
+        double E0Res = E0T;
+
+    if (TempTmax > 500.0) {
+        FyRes = FyT * (1.0 - 5.82e-4 * (TempTmax - 500.0));
+        E0Res = E0T * (1.0 - 1.30e-4 * (TempTmax - 500.0));
+    }
+
+    // Properties at peak temperature
+       double FyPeak = FyT;
+      double E0Peak = E0T;
+
+    if (TempTmax <= 80.0) {
+        FyPeak = FyT;
+        E0Peak = E0T;
+    }
+    else if (TempTmax <= 180.0) {
+        FyPeak = FyT;
+        E0Peak = E0T * (1.0 - (TempTmax - 80.0) * 0.1 / 100.0);
+    }
+    else if (TempTmax <= 280.0) {
+        FyPeak = FyT;
+        E0Peak = E0T * (0.9 - (TempTmax - 180.0) * 0.1 / 100.0);
+    }
+    else if (TempTmax <= 380.0) {
+        FyPeak = FyT;
+        E0Peak = E0T * (0.8 - (TempTmax - 280.0) * 0.1 / 100.0);
+    }
+    else if (TempTmax <= 480.0) {
+        FyPeak = FyT * (1.0 - (TempTmax - 380.0) * 0.22 / 100.0);
+        E0Peak = E0T * (0.7 - (TempTmax - 380.0) * 0.1 / 100.0);
+    }
+    else if (TempTmax <= 580.0) {
+        FyPeak = FyT * (0.78 - (TempTmax - 480.0) * 0.31 / 100.0);
+        E0Peak = E0T * (0.6 - (TempTmax - 480.0) * 0.29 / 100.0);
+    }
+    else if (TempTmax <= 680.0) {
+        FyPeak = FyT * (0.47 - (TempTmax - 580.0) * 0.24 / 100.0);
+        E0Peak = E0T * (0.31 - (TempTmax - 580.0) * 0.18 / 100.0);
+    }
+    else if (TempTmax <= 780.0) {
+        FyPeak = FyT * (0.23 - (TempTmax - 680.0) * 0.12 / 100.0);
+        E0Peak = E0T * (0.13 - (TempTmax - 680.0) * 0.04 / 100.0);
+    }
+    else if (TempTmax <= 880.0) {
+        FyPeak = FyT * (0.11 - (TempTmax - 780.0) * 0.05 / 100.0);
+        E0Peak = E0T * (0.09 - (TempTmax - 780.0) * 0.0225 / 100.0);
+    }
+    else if (TempTmax <= 980.0) {
+        FyPeak = FyT * (0.06 - (TempTmax - 880.0) * 0.02 / 100.0);
+        E0Peak = E0T * (0.0675 - (TempTmax - 880.0) * 0.0225 / 100.0);
+    }
+    else if (TempTmax <= 1080.0) {
+       FyPeak = FyT * (0.04 - (TempTmax - 980.0) * 0.02 / 100.0);
+       E0Peak = E0T * (0.045 - (TempTmax - 980.0) * 0.0225 / 100.0);
+    }
+    else if (TempTmax <= 1180.0) {
+        FyPeak = FyT * (0.02 - (TempTmax - 1080.0) * 0.02 / 100.0);
+        E0Peak = E0T * (0.0225 - (TempTmax - 1080.0) * 0.0225 / 100.0);
+    }
+    // Linear interpolation of steel properties during cooling
+    double coolingRatio = (TempT - 20.0) / (TempTmax - 20.0);
+
+    if (coolingRatio < 0.0)
+        coolingRatio = 0.0;
+
+    if (coolingRatio > 1.0)
+        coolingRatio = 1.0;
+
+    Fy = FyRes + coolingRatio * (FyPeak - FyRes);
+    E0 = E0Res + coolingRatio * (E0Peak - E0Res);
+
+    } // End of cooling block
+    
 
 	// calculation of thermal elongation of reinforcing steel. JZ
  //opserr<<TempT<<endln;
