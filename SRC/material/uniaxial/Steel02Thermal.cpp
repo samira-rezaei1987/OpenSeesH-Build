@@ -580,22 +580,21 @@ Steel02Thermal::getElongTangent(double TempT, double& ET, double& Elong, double 
 
     } // End of cooling block
 	
-    // Diagnostic: print only once
-    static bool steelResidualPrinted = false;
+    // Diagnostic: report the maximum temperature received by steel
+    static double maxSteelTemp = -1.0;
 
-    if (!steelResidualPrinted &&
-        TempTmax > 500.0 &&
-        TempT <= 1.0) {
+    if (TempTmax > maxSteelTemp) {
+        maxSteelTemp = TempTmax;
 
-        opserr << "STEEL_RESIDUAL_CHECK"
+    if (maxSteelTemp > 500.0) {
+        opserr << "STEEL_MAX_TEMP_CHECK"
                << " TempT=" << TempT
                << " TempTmax=" << TempTmax
                << " Fy=" << Fy
                << " E0=" << E0
                << endln;
-
-        steelResidualPrinted = true;
     }
+   }
 
 
 	// calculation of thermal elongation of reinforcing steel. JZ
