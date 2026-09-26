@@ -366,7 +366,7 @@ Steel02Thermal::setTrialStrain(double trialStrain, double FiberTemperature, doub
 	// asymptote by sigsft before calculating the intersection point 
 	// Constants a3 and a4 control this stress shift on the tension side 
 
-	if (kon == 2 && deps > 0.0) {
+	if (kon == 2 && FiberTemperature < FiberTP && deps > 0.0) {
 
 
 		kon = 1;
@@ -382,7 +382,7 @@ Steel02Thermal::setTrialStrain(double trialStrain, double FiberTemperature, doub
 		epspl = epsmax;
 
 	}
-	else if (kon == 1 && deps < 0.0) {
+	else if (kon == 1 && FiberTemperature < FiberTP && deps < 0.0) {
 
 		// update the maximum previous strain, store the last load reversal 
 		// point and calculate the stress and strain (sigs0 and epss0) at the 
@@ -580,38 +580,7 @@ Steel02Thermal::getElongTangent(double TempT, double& ET, double& Elong, double 
 
     } // End of cooling block
 	
-    // Diagnostic: report the maximum temperature received by steel
-    static double maxSteelTemp = -1.0;
-
-    if (TempTmax > maxSteelTemp) {
-        maxSteelTemp = TempTmax;
-
-    if (maxSteelTemp > 500.0) {
-        opserr << "STEEL_MAX_TEMP_CHECK"
-               << " TempT=" << TempT
-               << " TempTmax=" << TempTmax
-               << " Fy=" << Fy
-               << " E0=" << E0
-               << endln;
-    }
-   }
-   // Diagnostic: check residual steel properties during cooling
-   static bool steelCoolingPrinted = false;
-
-    if (!steelCoolingPrinted &&
-        TempTmax > 500.0 &&
-        TempT < 30.0) {
-
-        opserr << "STEEL_COOLING_CHECK"
-               << " TempT=" << TempT
-               << " TempTmax=" << TempTmax
-               << " Fy=" << Fy
-               << " E0=" << E0
-               << endln;
-
-    steelCoolingPrinted = true;
-}
-
+    
 
 	// calculation of thermal elongation of reinforcing steel. JZ
  //opserr<<TempT<<endln;
