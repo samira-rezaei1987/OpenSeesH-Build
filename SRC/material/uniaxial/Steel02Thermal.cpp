@@ -366,7 +366,7 @@ Steel02Thermal::setTrialStrain(double trialStrain, double FiberTemperature, doub
 	// asymptote by sigsft before calculating the intersection point 
 	// Constants a3 and a4 control this stress shift on the tension side 
 
-	if (kon == 2 && FiberTemperature < FiberTP && deps > 0.0) {
+	if (kon == 2 && deps > 0.0) {
 
 
 		kon = 1;
@@ -382,7 +382,7 @@ Steel02Thermal::setTrialStrain(double trialStrain, double FiberTemperature, doub
 		epspl = epsmax;
 
 	}
-	else if (kon == 1 && FiberTemperature < FiberTP && deps < 0.0) {
+	else if (kon == 1 && deps < 0.0) {
 
 		// update the maximum previous strain, store the last load reversal 
 		// point and calculate the stress and strain (sigs0 and epss0) at the 
