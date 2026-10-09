@@ -67,6 +67,7 @@ class MinMaxMaterial : public UniaxialMaterial
 
     int setParameter(const char **argv, int argc, Parameter &param);
     int updateParameter(int parameterID, Information &info);
+	int getVariable(const char *variable, Information &info);
 
     // AddingSensitivity:BEGIN //////////////////////////////////////////
     double getStressSensitivity     (int gradIndex, bool conditional);

@@ -387,6 +387,12 @@ MinMaxMaterial::updateParameter(int parameterID, Information &info)
 {
   return 0;
 }
+ 
+int
+MinMaxMaterial::getVariable(const char *variable, Information &info)
+{
+    return theMaterial->getVariable(variable, info);
+}
 
 double
 MinMaxMaterial::getStressSensitivity(int gradIndex, bool conditional)
