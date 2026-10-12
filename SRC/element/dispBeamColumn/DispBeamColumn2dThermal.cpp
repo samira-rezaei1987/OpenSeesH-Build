@@ -326,8 +326,10 @@ DispBeamColumn2dThermal::setDomain(Domain* theDomain)
         opserr << "DEBUG_AFTER_UPDATE_E = "
                << theSections[0]->getSectionDeformation() << endln;
         opserr << "DEBUG_AFTER_UPDATE_K = "
-               << theSections[0]->getSectionTangent() << endln;
+           << theSections[0]->getSectionTangent() << endln;
     }
+}
+	
 int
 DispBeamColumn2dThermal::commitState()
 {
