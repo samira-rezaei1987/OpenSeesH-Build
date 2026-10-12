@@ -313,9 +313,21 @@ DispBeamColumn2dThermal::setDomain(Domain* theDomain)
 
 	this->DomainComponent::setDomain(theDomain);
 
-	this->update();
+	if (this->getTag() == 10121 && numSections > 0) {
+        opserr << "DEBUG_BEFORE_UPDATE_E = "
+               << theSections[0]->getSectionDeformation() << endln;
+        opserr << "DEBUG_BEFORE_UPDATE_K = "
+               << theSections[0]->getSectionTangent() << endln;
 }
 
+    this->update();
+
+    if (this->getTag() == 10121 && numSections > 0) {
+        opserr << "DEBUG_AFTER_UPDATE_E = "
+               << theSections[0]->getSectionDeformation() << endln;
+        opserr << "DEBUG_AFTER_UPDATE_K = "
+               << theSections[0]->getSectionTangent() << endln;
+    }
 int
 DispBeamColumn2dThermal::commitState()
 {

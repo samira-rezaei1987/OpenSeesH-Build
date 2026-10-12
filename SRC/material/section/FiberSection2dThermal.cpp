@@ -252,7 +252,9 @@ FiberSection2dThermal::FiberSection2dThermal(int tag, int num, UniaxialMaterial*
 	sectionIntegr->getFiberWeights(numFibers, fiberArea);
 
 	for (int i = 0; i < numFibers; i++) {
-
+        matData[2*i] = fiberLocs[i];
+        matData[2*i+1] = fiberArea[i];
+		
 		ABar += fiberArea[i];
 		QzBar += fiberLocs[i] * fiberArea[i];
 
