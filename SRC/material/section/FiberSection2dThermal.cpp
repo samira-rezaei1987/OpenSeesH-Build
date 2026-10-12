@@ -297,6 +297,8 @@ FiberSection2dThermal::FiberSection2dThermal(int tag, int num, UniaxialMaterial*
 {
 	s = new Vector(sData, 2);
 	ks = new Matrix(kData, 2, 2);
+	e.Zero();
+    eCommit.Zero();
 
 	sData[0] = 0.0;
 	sData[1] = 0.0;
@@ -997,6 +999,45 @@ FiberSection2dThermal::sendSelf(int commitTag, Channel& theChannel)
             return res;
         }
 	}
+	    res += theChannel.sendVector(dbTag, commitTag, e);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::sendSelf - failed to send e\n";
+            return res;
+    }
+
+        res += theChannel.sendVector(dbTag, commitTag, eCommit);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::sendSelf - failed to send eCommit\n";
+            return res;
+    }
+	    res += theChannel.sendVector(dbTag, commitTag, AverageThermalElong);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::sendSelf - failed to send AverageThermalElong\n";
+            return res;
+    }
+
+        res += theChannel.sendVector(dbTag, commitTag, sT);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::sendSelf - failed to send sT\n";
+            return res;
+    }
+	    Vector sectionState(6);
+
+        sectionState(0) = kData[0];
+        sectionState(1) = kData[1];
+        sectionState(2) = kData[2];
+        sectionState(3) = kData[3];
+
+        sectionState(4) = sData[0];
+        sectionState(5) = sData[1];
+
+        int stateRes = theChannel.sendVector(
+        this->getDbTag(), commitTag, sectionState);
+
+        if (stateRes < 0) {
+            opserr << "FiberSection2dThermal::sendSelf - failed to send sectionState\n";
+            return stateRes;
+    }
 
 	return res;
 }
@@ -1170,6 +1211,45 @@ FiberSection2dThermal::recvSelf(int commitTag, Channel& theChannel,
 		else
 			yBar = 0.0;
 	}
+	    res += theChannel.recvVector(dbTag, commitTag, e);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::recvSelf - failed to recv e\n";
+            return res;
+    }
+
+        res += theChannel.recvVector(dbTag, commitTag, eCommit);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::recvSelf - failed to recv eCommit\n";
+            return res;
+    }
+	    res += theChannel.recvVector(dbTag, commitTag, AverageThermalElong);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::recvSelf - failed to recv AverageThermalElong\n";
+            return res;
+    }
+
+        res += theChannel.recvVector(dbTag, commitTag, sT);
+        if (res < 0) {
+            opserr << "FiberSection2dThermal::recvSelf - failed to recv sT\n";
+            return res;
+    }
+	    Vector sectionState(6);
+
+        int stateRes = theChannel.recvVector(
+        this->getDbTag(), commitTag, sectionState);
+
+        if (stateRes < 0) {
+            opserr << "FiberSection2dThermal::recvSelf - failed to recv sectionState\n";
+            return stateRes;
+    }
+
+        kData[0] = sectionState(0);
+        kData[1] = sectionState(1);
+        kData[2] = sectionState(2);
+        kData[3] = sectionState(3);
+
+        sData[0] = sectionState(4);
+        sData[1] = sectionState(5);
 
 	return res;
 }

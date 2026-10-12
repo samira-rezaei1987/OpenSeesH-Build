@@ -177,7 +177,7 @@ DispBeamColumn2dThermal::DispBeamColumn2dThermal(int tag, int nd1, int nd2,
 
 	theNodes[0] = 0;
 	theNodes[1] = 0;
-
+    Q.Zero();
 	q0[0] = 0.0;
 	q0[1] = 0.0;
 	q0[2] = 0.0;
@@ -202,6 +202,7 @@ DispBeamColumn2dThermal::DispBeamColumn2dThermal()
 	connectedExternalNodes(2), SectionThermalElong(0),
 	Q(6), q(3), rho(0.0), parameterID(0)
 {
+	Q.Zero();
 	q0[0] = 0.0;
 	q0[1] = 0.0;
 	q0[2] = 0.0;
@@ -1209,7 +1210,7 @@ DispBeamColumn2dThermal::sendSelf(int commitTag, Channel& theChannel)
 	int i, j;
 	int loc = 0;
 
-	static Vector data(14);
+	static Vector data(25);
 	data(0) = this->getTag();
 	data(1) = connectedExternalNodes(0);
 	data(2) = connectedExternalNodes(1);
@@ -1236,6 +1237,20 @@ DispBeamColumn2dThermal::sendSelf(int commitTag, Channel& theChannel)
 	data(11) = betaK;
 	data(12) = betaK0;
 	data(13) = betaKc;
+	data(14) = AverageThermalElong;
+	data(15) = q0[0];
+    data(16) = q0[1];
+    data(17) = q0[2];
+
+    data(18) = p0[0];
+    data(19) = p0[1];
+    data(20) = p0[2];
+
+    data(21) = q0Temperature[0];
+    data(22) = q0Temperature[1];
+    data(23) = q0Temperature[2];
+
+    data(24) = counterTemperature;
 
 	if (theChannel.sendVector(dbTag, commitTag, data) < 0) {
 		opserr << "DispBeamColumn2d::sendSelf() - failed to send data Vector\n";
@@ -1290,6 +1305,14 @@ DispBeamColumn2dThermal::sendSelf(int commitTag, Channel& theChannel)
 			return -1;
 		}
 	}
+	    if (theChannel.sendVector(dbTag, commitTag, SectionThermalElong) < 0) {
+            opserr << "DispBeamColumn2dThermal::sendSelf() - failed to send SectionThermalElong\n";
+            return -1;
+    }
+       if (theChannel.sendVector(dbTag, commitTag, Q) < 0) {
+           opserr << "DispBeamColumn2dThermal::sendSelf() - failed to send Q\n";
+           return -1;
+    }
 
 	return 0;
 }
@@ -1304,7 +1327,7 @@ DispBeamColumn2dThermal::recvSelf(int commitTag, Channel& theChannel,
 	int dbTag = this->getDbTag();
 	int i;
 
-	static Vector data(14);
+	static Vector data(25);
 
 	if (theChannel.recvVector(dbTag, commitTag, data) < 0) {
 		opserr << "DispBeamColumn2dThermal::recvSelf() - failed to recv ID data\n";
@@ -1328,6 +1351,20 @@ DispBeamColumn2dThermal::recvSelf(int commitTag, Channel& theChannel,
 	betaK = data(11);
 	betaK0 = data(12);
 	betaKc = data(13);
+	AverageThermalElong = data(14);
+	q0[0] = data(15);
+    q0[1] = data(16);
+    q0[2] = data(17);
+
+    p0[0] = data(18);
+    p0[1] = data(19);
+    p0[2] = data(20);
+
+    q0Temperature[0] = data(21);
+    q0Temperature[1] = data(22);
+    q0Temperature[2] = data(23);
+
+    counterTemperature = (int)data(24);
 
 	// create a new crdTransf object if one needed
 	if (crdTransf == 0 || crdTransf->getClassTag() != crdTransfClassTag) {
@@ -1467,6 +1504,15 @@ DispBeamColumn2dThermal::recvSelf(int commitTag, Channel& theChannel,
 			}
 		}
 	}
+	        SectionThermalElong.resize(numSections);
+            if (theChannel.recvVector(dbTag, commitTag, SectionThermalElong) < 0) {
+                opserr << "DispBeamColumn2dThermal::recvSelf() - failed to recv SectionThermalElong\n";
+                return -1;
+    }
+	        if (theChannel.recvVector(dbTag, commitTag, Q) < 0) {
+                opserr << "DispBeamColumn2dThermal::recvSelf() - failed to recv Q\n";
+                return -1;
+    }
 
 	return 0;
 }

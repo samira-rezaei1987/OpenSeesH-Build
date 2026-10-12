@@ -110,6 +110,8 @@ Concrete02Thermal::Concrete02Thermal(void) :
     epscuP = 0.0;
     ftP = 0.0;
     EtsP = 0.0;
+	steps = 0.0;
+    strainRatio = 0.0;
 }
 
 Concrete02Thermal::~Concrete02Thermal(void)
@@ -814,6 +816,8 @@ Concrete02Thermal::recvSelf(int commitTag, Channel& theChannel,
     epscuT = data(28);
     ftT = data(29);
     EtsT = data(30);
+	ecmin = ecminP;
+    dept  = deptP;
 	Temp = TempP;
 	e = eP;
 	sig = sigP;

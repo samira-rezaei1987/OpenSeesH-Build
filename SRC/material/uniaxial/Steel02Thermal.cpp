@@ -697,7 +697,7 @@ Steel02Thermal::revertToStart(void)
 int
 Steel02Thermal::sendSelf(int commitTag, Channel& theChannel)
 {
-	static Vector data(28);
+	static Vector data(30);
 	data(0) = Fy;
 	data(1) = E0;
 	data(2) = b;
@@ -726,6 +726,8 @@ Steel02Thermal::sendSelf(int commitTag, Channel& theChannel)
 	data(25) = FyT;
 	data(26) = E0T;
 	data(27) = FiberTP;
+	data(28) = E0P;
+    data(29) = FyP;
 
 	if (theChannel.sendVector(this->getDbTag(), commitTag, data) < 0) {
 		opserr << "Steel02Thermal::sendSelf() - failed to sendSelf\n";
@@ -738,7 +740,7 @@ int
 Steel02Thermal::recvSelf(int commitTag, Channel& theChannel,
 	FEM_ObjectBroker& theBroker)
 {
-	static Vector data(28);
+	static Vector data(30);
 
 	if (theChannel.recvVector(this->getDbTag(), commitTag, data) < 0) {
 		opserr << "Steel02Thermal::recvSelf() - failed to recvSelf\n";
@@ -773,6 +775,8 @@ Steel02Thermal::recvSelf(int commitTag, Channel& theChannel,
 	FyT = data(25);
 	E0T = data(26);
 	FiberTP = data(27);
+	E0P = data(28);
+    FyP = data(29);
 	//opserr << FiberTP << ", " << ThermalElongation << ", " << FyT << ", " << E0T << endln;
 	e = eP;
 	sig = sigP;
