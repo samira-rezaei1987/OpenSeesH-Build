@@ -517,6 +517,13 @@ FiberSection2dThermal::setTrialSectionDeformation(const Vector& deforms)
 		double strain = d0 - y * d1;   //axial strain d0, rotational degree d1;
 
 		strain = strain - ThermalElongation;  //Mechanical strain calculated by subtracting total strain with thermal strain
+		if (i == 0 && this->getTag() == 3) {
+            opserr << "DEBUG_FIBER0_Y = " << y << endln;
+            opserr << "DEBUG_FIBER0_TEMP = " << FiberTemperatures[i] << endln;
+            opserr << "DEBUG_FIBER0_TMAX = " << FiberTempMax[i] << endln;
+            opserr << "DEBUG_FIBER0_THERMAL_ELONG = " << ThermalElongation << endln;
+            opserr << "DEBUG_FIBER0_MECH_STRAIN = " << strain << endln;
+    }
 
 		//opserr<<"Total strain "<<strain+ThermalElongation<<"Updated mechanical strain "<<strain <<endln;
 
