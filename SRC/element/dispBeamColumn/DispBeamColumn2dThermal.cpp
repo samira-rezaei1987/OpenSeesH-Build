@@ -318,8 +318,17 @@ DispBeamColumn2dThermal::setDomain(Domain* theDomain)
                << theSections[0]->getSectionDeformation() << endln;
         opserr << "DEBUG_BEFORE_UPDATE_K = "
                << theSections[0]->getSectionTangent() << endln;
-}
+    }
+    if (this->getTag() == 10121) {
+        opserr << "DEBUG_BASIC_DISP = "
+               << crdTransf->getBasicTrialDisp() << endln;
 
+        opserr << "DEBUG_AVG_THERMAL = "
+               << AverageThermalElong << endln;
+
+        opserr << "DEBUG_SECTION_THERMAL = "
+               << SectionThermalElong << endln;
+    }
     this->update();
 
     if (this->getTag() == 10121 && numSections > 0) {
