@@ -1200,6 +1200,14 @@ FiberSection2dThermal::recvSelf(int commitTag, Channel& theChannel,
             opserr << "FiberSection2dThermal::recvSelf - failed to recv FiberTempMaxCommit\n";
             return res;
         }
+		if (this->getTag() == 3 && numFibers > 0) {
+            opserr << "CHECK_RECV_TEMP = "
+                   << FiberTemperatures[0] << endln;
+            opserr << "CHECK_RECV_TEMP_COMMIT = "
+                   << FiberTemperaturesCommit[0] << endln;
+            opserr << "CHECK_RECV_TMAX = "
+                   << FiberTempMax[0] << endln;
+        }
 		computeCentroid = data(2) ? true : false;
 
 		// Recompute centroid
