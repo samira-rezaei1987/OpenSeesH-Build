@@ -329,7 +329,7 @@ DispBeamColumn2dThermal::setDomain(Domain* theDomain)
         opserr << "DEBUG_SECTION_THERMAL = "
                << SectionThermalElong << endln;
     }
-    this->update();
+    #this->update();
 
     if (this->getTag() == 10121 && numSections > 0) {
         opserr << "DEBUG_AFTER_UPDATE_E = "
